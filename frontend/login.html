@@ -1,34 +1,56 @@
+<!-- frontend/login.html -->
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kirish</title>
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <nav>
-      <a href="index.html">Bosh Sahifa</a>
-      <a href="login.html">Kirish</a>
-      <a href="register.html">Ro'yxatdan O'tish</a>
-      <a href="profile.html">Profil</a>
-      <a href="quiz.html">Viktorina</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
-  <main>
-    <section id="loginSection" class="container">
-      <h2>Kirish</h2>
-      <form onsubmit="login(event)">
-        <label for="loginUsername">Login:</label>
-        <input type="text" id="loginUsername" placeholder="Login kiriting" required>
-        <label for="loginPassword">Parol:</label>
-        <input type="password" id="loginPassword" placeholder="Parol kiriting" required>
-        <button type="submit">Kirish</button>
-      </form>
-    </section>
-  </main>
-  <script src="js/main.js"></script>
+<body class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-sm bg-white dark:bg-gray-800 p-6 rounded shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center dark:text-gray-100">Tizimga kirish</h1>
+    <form id="loginForm" class="space-y-4">
+      <input type="email" name="email" placeholder="Email"
+             class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600" required />
+      <input type="password" name="password" placeholder="Parol"
+             class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600" required />
+      <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+        Kirish
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-300">
+      Akkauntingiz yo'qmi? <a href="register.html" class="text-blue-500 hover:underline">Ro'yxatdan o'ting</a>
+    </p>
+  </div>
+
+  <script>
+    // Kirish formasi jo'natilganda serverga AJAX so'rov yuborish
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = form.email.value;
+      const password = form.password.value;
+      // API ga so'rov (foydalanuvchi login)
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+          credentials: 'include' // HTTP-Only cookie olinishiga ruxsat
+        });
+        if (res.ok) {
+          // Muvaffaqiyatli login: viktorina sahifasiga yo'naltirish
+          window.location.href = "index.html";  // Kirishdan so'ng bosh sahifa (yoki rejim tanlash)
+        } else {
+          const msg = await res.text();
+          alert("Login xatosi: " + msg);
+        }
+      } catch (err) {
+        console.error("Tarmoqqa ulanishda xatolik", err);
+      }
+    });
+  </script>
 </body>
 </html>

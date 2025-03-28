@@ -1,30 +1,34 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Profil</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header>
-    <nav>
-      <a href="index.html">Bosh Sahifa</a>
-      <a href="login.html">Kirish</a>
-      <a href="register.html">Ro'yxatdan O'tish</a>
-      <a href="profile.html">Profil</a>
-      <a href="quiz.html">Viktorina</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
-  <main>
-    <section id="profileSection" class="container">
-      <h2>Profil</h2>
-      <div id="userProfile">
-        <!-- Foydalanuvchi haqidagi ma'lumotlar shu yerda ko'rsatiladi -->
-      </div>
-    </section>
-  </main>
-  <script src="js/main.js"></script>
+<!-- frontend/profile.html (asosiy qismi) -->
+<body class="...">
+  <div class="max-w-lg mx-auto mt-10 p-4 bg-white dark:bg-gray-800 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Profil</h2>
+    <p id="welcomeText" class="mb-2"></p>
+    <p id="statsText" class="mb-4 text-sm text-gray-700 dark:text-gray-300"></p>
+    <h3 class="text-xl font-semibold mb-2">Top foydalanuvchilar:</h3>
+    <ul id="rankingList" class="list-decimal list-inside"></ul>
+  </div>
+  <script>
+    // Profil ma'lumotlarini olish
+    fetch('/api/user/me', { credentials: 'include' })
+      .then(res => res.json())
+      .then(user => {
+        document.getElementById('welcomeText').innerText = `Salom, ${user.name}!`;
+        document.getElementById('statsText').innerText = 
+          `Jami testlar: ${user.stats.quizzesTaken}, To'g'ri javoblar ulushi: ${Math.round((user.stats.totalCorrect/user.stats.totalQuestions)*100) || 0}%`;
+      });
+    // Reyting ro'yxatini olish
+    fetch('/api/user/rankings', { credentials: 'include' })
+      .then(res => res.json())
+      .then(ranks => {
+        const list = document.getElementById('rankingList');
+        ranks.forEach((u, idx) => {
+          const li = document.createElement('li');
+          li.textContent = `${u.name} - ${u.highScore}%`;  // yoki boshqa ko'rsatkich
+          if (u.email === user.email) {
+            li.style.fontWeight = 'bold'; // agar ro'yxatdagi foydalanuvchi biz bo'lsak, ajratib ko'rsatish
+          }
+          list.appendChild(li);
+        });
+      });
+  </script>
 </body>
-</html>
