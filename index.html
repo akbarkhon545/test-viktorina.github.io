@@ -238,6 +238,11 @@
       <h2>Admin Paneli</h2>
       <hr>
       <h3>Excel orqali test qo'shish</h3>
+      <!-- Qo'shimcha: Testni nashr etish uchun checkbox -->
+      <label>
+        <input type="checkbox" id="publishTest" checked>
+        Testni nashr etilsinmi
+      </label>
       <input type="file" id="adminFileInput" accept=".xlsx" multiple>
       <button onclick="uploadTests()">Yukla</button>
       <ul id="adminTestsList"></ul>
@@ -390,18 +395,24 @@
       populateAdminTestsList();
     }
     
+    // Foydalanuvchilar uchun test dropdownini nashr etilgan testlar asosida to'ldiramiz
     function populateTestDropdown() {
       const dropdown = document.getElementById("testDropdown");
       dropdown.innerHTML = "";
-      if (tests.length === 0) {
+      let count = 0;
+      tests.forEach((test, index) => {
+        // Agar foydalanuvchi admin bo'lmasa, faqat nashr etilgan testlar ko'rsatiladi
+        if (currentUser && currentUser.role !== "admin" && !test.published) {
+          return;
+        }
+        let option = document.createElement("option");
+        option.value = index; // Asl indeksni saqlab qolamiz
+        option.text = test.name;
+        dropdown.appendChild(option);
+        count++;
+      });
+      if (count === 0) {
         dropdown.innerHTML = "<option value=''>Hozircha test yo'q</option>";
-      } else {
-        tests.forEach((test, index) => {
-          let option = document.createElement("option");
-          option.value = index;
-          option.text = test.name;
-          dropdown.appendChild(option);
-        });
       }
     }
     
@@ -410,7 +421,7 @@
       list.innerHTML = "";
       tests.forEach((test, index) => {
         let li = document.createElement("li");
-        li.textContent = test.name;
+        li.textContent = test.name + (test.published ? " (Nashr etilgan)" : " (Nashr etilmagan)");
         let delButton = document.createElement("button");
         delButton.textContent = "O'chir";
         delButton.onclick = () => { deleteTest(index); };
@@ -427,8 +438,10 @@
       }
     }
     
+    // Admin panel: Excel orqali test yuklash funksiyasi. Qo'shimcha: test obyektiga published maydoni qo'shildi.
     function uploadTests() {
       const files = document.getElementById("adminFileInput").files;
+      const publish = document.getElementById("publishTest").checked;
       if (files.length === 0) {
         alert("Iltimos, fayl tanlang.");
         return;
@@ -437,7 +450,7 @@
         const reader = new FileReader();
         reader.onload = function(e) {
           const base64Data = e.target.result;
-          tests.push({ name: file.name, data: base64Data });
+          tests.push({ name: file.name, data: base64Data, published: publish });
           saveTestsToStorage();
           loadTestsFromStorage();
           alert(file.name + " yuklandi.");
