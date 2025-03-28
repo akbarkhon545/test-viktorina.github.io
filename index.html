@@ -671,22 +671,3 @@
   </script>
 </body>
 </html>
-<!-- frontend/index.html -->
-<body class="... dark:bg-gray-900 ...">
-  <!-- ... header, navigatsiya ... -->
-  <div class="max-w-md mx-auto mt-10 text-center">
-    <h2 class="text-xl font-semibold mb-4 dark:text-gray-100">Viktorina rejimini tanlang:</h2>
-    <button onclick="startQuiz('exam')" class="bg-green-500 text-white px-4 py-2 m-2 rounded">
-      Imtihon rejimi
-    </button>
-    <button onclick="startQuiz('practice')" class="bg-yellow-500 text-white px-4 py-2 m-2 rounded">
-      Mashq rejimi
-    </button>
-  </div>
-  <script>
-    function startQuiz(mode) {
-      // Tanlangan rejimni quiz sahifasiga uzatish (URL query orqali)
-      window.location.href = `quiz.html?mode=${mode}`;
-    }
-  </script>
-</body>
