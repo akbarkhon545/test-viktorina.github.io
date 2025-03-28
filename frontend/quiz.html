@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viktorina</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Excel fayllarni o'qish uchun XLSX kutubxonasi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Bosh Sahifa</a>
+      <a href="login.html">Kirish</a>
+      <a href="register.html">Ro'yxatdan O'tish</a>
+      <a href="profile.html">Profil</a>
+      <a href="quiz.html">Viktorina</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <section id="quizSection" class="container">
+      <h1>Interaktiv Viktorina</h1>
+      <div id="modeButtons">
+        <button onclick="selectMode('exam')">Imtihon</button>
+        <button onclick="selectMode('practice')">Mashq</button>
+      </div>
+      <div id="testSelector" class="hidden">
+        <label for="testDropdown">Testni tanlang:</label>
+        <select id="testDropdown"></select>
+      </div>
+      <button id="startTestButton" class="hidden" onclick="startTest()">Boshlash</button>
+      <div id="quiz" class="hidden">
+        <div id="timer">⏳ 25:00</div>
+        <div class="question-container" id="questionDisplay"></div>
+        <div id="feedback"></div>
+        <div class="progress-bar">
+          <div id="progress" class="progress"></div>
+        </div>
+        <div id="quizControls">
+          <button onclick="previousQuestion()">⬅️</button>
+          <button onclick="nextQuestion()">➡️</button>
+          <button onclick="finishQuiz()">✔️</button>
+        </div>
+      </div>
+      <div id="submissionPanel" class="hidden">
+        <div id="resultSummary"></div>
+        <button onclick="backToHome()">Asosiy menyu</button>
+      </div>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>
