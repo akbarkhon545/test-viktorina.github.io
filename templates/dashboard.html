@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Панель управления{% endblock %}
+{% block content %}
+<h2>Добро пожаловать, {{ current_user.name }}</h2>
+{% if current_user.role in ['admin', 'manager'] %}
+  <p>Используйте меню для управления системой.</p>
+{% else %}
+  <h3>Ваша статистика</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Предмет</th>
+        <th>Количество прохождений</th>
+        <th>Средний балл</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subject, data in stats.items() %}
+      <tr>
+        <td>{{ subject.name }}</td>
+        <td>{{ data.attempts }}</td>
+        <td>{{ data.avg_score }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ url_for('test_select') }}" class="btn btn-success">Начать тренировочный тест</a>
+{% endif %}
+{% endblock %}

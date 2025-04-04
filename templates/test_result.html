@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Результаты теста{% endblock %}
+{% block content %}
+<h2>Результаты теста</h2>
+<p>Правильных ответов: {{ correct }} из {{ total }}</p>
+<p>Ваш результат: {{ score }}%</p>
+<p>Затраченное время: {{ total_time }} секунд</p>
+<a href="{{ url_for('dashboard') }}" class="btn btn-primary">На главную</a>
+{% endblock %}

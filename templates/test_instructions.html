@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Инструкции{% endblock %}
+{% block content %}
+<h2>Инструкции для теста по {{ subject.name }}</h2>
+<p>{{ instructions }}</p>
+<div class="mb-3">
+  <a href="{% if mode=='training' %}{{ url_for('start_training_test', subject_id=subject.id) }}{% else %}{{ url_for('start_all_questions_test', subject_id=subject.id) }}{% endif %}" class="btn btn-success">Начать тест</a>
+</div>
+{% endblock %}

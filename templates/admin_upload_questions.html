@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Загрузка вопросов{% endblock %}
+{% block content %}
+<h2>Загрузка вопросов</h2>
+<form method="post" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label for="subject_id" class="form-label">Выберите предмет</label>
+    <select name="subject_id" class="form-select" required>
+      {% for subject in subjects %}
+      <option value="{{ subject.id }}">{{ subject.name }} ({{ subject.faculty.name }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="file" class="form-label">Выберите Excel файл</label>
+    <input type="file" name="file" class="form-control" accept=".xlsx" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Загрузить вопросы</button>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Управление факультетами{% endblock %}
+{% block content %}
+<h2>Факультеты</h2>
+<form method="post" class="mb-3">
+  <div class="mb-3">
+    <label for="name" class="form-label">Название факультета</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Добавить факультет</button>
+</form>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for faculty in faculties %}
+    <tr>
+      <td>{{ faculty.id }}</td>
+      <td>{{ faculty.name }}</td>
+      <td>
+        <form method="post" action="{{ url_for('delete_faculty', faculty_id=faculty.id) }}" onsubmit="return confirm('Удалить факультет?');">
+          <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

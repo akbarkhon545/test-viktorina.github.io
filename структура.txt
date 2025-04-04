@@ -1,0 +1,22 @@
+my_testing_app/
+├── app.py
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── timer.js
+└── templates/
+    ├── admin_design.html
+    ├── admin_faculties.html
+    ├── admin_subjects.html
+    ├── admin_upload_questions.html
+    ├── admin_users.html
+    ├── dashboard.html
+    ├── login.html
+    ├── support.html
+    ├── test_instructions.html
+    ├── test_question.html
+    ├── test_result.html
+    ├── test_select.html
+    └── all_questions.html

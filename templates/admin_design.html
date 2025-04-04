@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Настройки дизайна{% endblock %}
+{% block content %}
+<h2>Настройки дизайна</h2>
+<form method="post" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label for="primary_color" class="form-label">Основной цвет (HEX)</label>
+    <input type="text" name="primary_color" class="form-control" value="{{ design.primary_color if design and design.primary_color else '#000000' }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="secondary_color" class="form-label">Вторичный цвет (HEX)</label>
+    <input type="text" name="secondary_color" class="form-control" value="{{ design.secondary_color if design and design.secondary_color else '#ffffff' }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="logo" class="form-label">Логотип (PNG)</label>
+    <input type="file" name="logo" class="form-control" accept="image/png">
+  </div>
+  <button type="submit" class="btn btn-primary">Сохранить настройки</button>
+</form>
+{% if design and design.logo_path %}
+  <h3>Предпросмотр логотипа</h3>
+  <img src="{{ url_for('static', filename=design.logo_path.split('static/')[-1]) }}" alt="Логотип" style="max-width:200px;">
+{% endif %}
+{% endblock %}
+

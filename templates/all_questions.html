@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Вопрос {{ index+1 }} из {{ total }}{% endblock %}
+{% block content %}
+<h2>Вопрос {{ index+1 }} из {{ total }}</h2>
+<p>{{ question.question_text }}</p>
+{% if not feedback %}
+<form method="post">
+  {% for answer in answers %}
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="answer" id="answer{{ loop.index }}" value="{{ answer }}" required>
+      <label class="form-check-label" for="answer{{ loop.index }}">
+        {{ answer }}
+      </label>
+    </div>
+  {% endfor %}
+  <br>
+  <button type="submit" class="btn btn-primary">Ответить</button>
+</form>
+{% else %}
+<div class="alert alert-info">{{ feedback }}</div>
+{% endif %}
+<div class="mt-3">
+  {% if index > 0 %}
+    <a href="{{ url_for('all_question', subject_id=question.subject_id, index=index-1) }}" class="btn btn-secondary">Назад</a>
+  {% endif %}
+  {% if index < total - 1 %}
+    <a href="{{ url_for('all_question', subject_id=question.subject_id, index=index+1) }}" class="btn btn-primary">Далее</a>
+  {% endif %}
+  <a href="{{ url_for('dashboard') }}" class="btn btn-danger">Завершить тест</a>
+</div>
+{% endblock %}
